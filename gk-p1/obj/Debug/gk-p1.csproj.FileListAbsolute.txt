@@ -1,0 +1,15 @@
+C:\Users\PC\source\repos\gk-p1\gk-p1\bin\Debug\gk-p1.exe.config
+C:\Users\PC\source\repos\gk-p1\gk-p1\bin\Debug\gk-p1.exe
+C:\Users\PC\source\repos\gk-p1\gk-p1\bin\Debug\gk-p1.pdb
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1.csprojAssemblyReference.cache
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\MainWindow.g.cs
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\App.g.cs
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1_MarkupCompile.cache
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1_MarkupCompile.lref
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\MainWindow.baml
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1.g.resources
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk_p1.Properties.Resources.resources
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1.csproj.GenerateResource.cache
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1.csproj.CoreCompileInputs.cache
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1.exe
+C:\Users\PC\source\repos\gk-p1\gk-p1\obj\Debug\gk-p1.pdb
