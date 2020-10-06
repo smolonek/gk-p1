@@ -29,12 +29,16 @@ namespace gk_p1
         /// <summary>
         /// Co ma zostać narysowane. 0 - linia, 1 - prostokąt, 2 - okrąg
         /// </summary>
+        private int DRAW_MODE = 0;
+        /// <summary>
+        /// Tryb pracy. 0 - rysowanie, 1 - zmiana położenia, 2 - zmiana rozmiaru
+        /// </summary>
         private int MODE = 0;
-
         double x, y;
         Point coords;
         Point figureStart;
         Point figureEnd;
+        Point movecoords;
         Rectangle rectMove = new Rectangle();
         Rectangle rectMovePrev = new Rectangle();
         //Line line = new Line();
@@ -50,20 +54,20 @@ namespace gk_p1
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ButtonState == MouseButtonState.Pressed && doesRectExist == false)
+            if (e.ButtonState == MouseButtonState.Pressed && MODE == 0 && doesRectExist == false)
             {
                 figureStart = e.GetPosition(this);
             }
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && doesRectExist == false)
+            if (e.LeftButton == MouseButtonState.Pressed && MODE == 0 && doesRectExist == false)
             {
-                if(MODE == 0)
+                if(DRAW_MODE == 0)
                 {
 
                 }
-                else if (MODE == 1)
+                else if (DRAW_MODE == 1)
                 {
                     if (canvas.Children.Contains(rectMovePrev))
                         canvas.Children.Remove(rectMovePrev);
@@ -86,11 +90,11 @@ namespace gk_p1
         }
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Released && doesRectExist == false)
+            if(e.LeftButton == MouseButtonState.Released && MODE == 0 && doesRectExist == false)
             {
                 figureEnd.X = e.GetPosition(this).X;
                 figureEnd.Y = e.GetPosition(this).Y;
-                if(MODE == 0)
+                if(DRAW_MODE == 0)
                 {
                     Line line = new Line();
                     line.X1 = figureStart.X;
@@ -99,9 +103,12 @@ namespace gk_p1
                     line.Y2 = figureEnd.Y;
                     line.Stroke = new SolidColorBrush(Colors.Red);
                     line.StrokeThickness = 2;
+                    line.MouseLeftButtonDown += line_MouseLeftButtonDown;
+                    line.MouseLeftButtonUp += line_MouseLeftButtonUp;
+                    line.MouseMove += line_MouseMove;
                     canvas.Children.Add(line);
                 }
-                else if(MODE == 1)
+                else if(DRAW_MODE == 1)
                 {
                     Rectangle rectangle = new Rectangle();
                     rectangle.Width = Math.Abs(figureEnd.X - figureStart.X);
@@ -114,6 +121,9 @@ namespace gk_p1
                     rectangle.Focusable = true;
                     rectangle.Name = "rectangle" + rectNumber++;
                     rectangle.KeyUp += new KeyEventHandler(rectangle_keydown);
+                    rectangle.MouseLeftButtonDown += rect_MouseLeftButtonDown;
+                    rectangle.MouseLeftButtonUp += rect_MouseLeftButtonUp;
+                    rectangle.MouseMove += rect_MouseMove;
                     canvas.Children.Add(rectangle);
                     FocusManager.SetFocusedElement(canvas, canvas.Children[canvas.Children.Count - 1]);
                     canvas.Children.Remove(rectMovePrev);
@@ -124,27 +134,62 @@ namespace gk_p1
                     Ellipse ellipse = new Ellipse();
                     ellipse.Height = 2 * GetDistance(figureStart, e.GetPosition(this));
                     ellipse.Width = ellipse.Height;
+                    ellipse.StrokeThickness = 2;
                     ellipse.Stroke = new SolidColorBrush(Colors.Green);
+                    ellipse.MouseLeftButtonDown += ellipse_MouseLeftButtonDown;
+                    ellipse.MouseLeftButtonUp += ellipse_MouseLeftButtonUp;
+                    ellipse.MouseMove += ellipse_MouseMove;
                     Canvas.SetLeft(ellipse, figureStart.X - ellipse.Width/2);
                     Canvas.SetTop(ellipse, figureStart.Y - ellipse.Width / 2);
                     canvas.Children.Add(ellipse);
                 }
             }
         }
+        private void ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            movecoords = e.GetPosition(this);
+            //MessageBox.Show(movecoords.ToString());
+        }
 
+        private void ellipse_MouseMove(object sender, MouseEventArgs e)
+        {
+            var rect = (Ellipse)sender;
+            if (e.LeftButton == MouseButtonState.Pressed && MODE == 1)
+            {
+                // get the position of the mouse relative to the Canvas
+                var mousePos = e.GetPosition(canvas);
+                //MessageBox.Show(movecoords.ToString());
+                // center the rect on the mouse
+                double left = mousePos.X - (rect.ActualWidth / 2);
+                double top = mousePos.Y - (rect.ActualHeight / 2);
+                Canvas.SetLeft(rect, left);
+                Canvas.SetTop(rect, top);
+            }
+        }
+
+        private void ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Ellipse rect = (Ellipse)sender;
+            if (!rect.IsMouseCaptured) return;
+            Point endpos = e.GetPosition(canvas);
+            canvas.Children.Remove(rect);
+            Canvas.SetLeft(rect, endpos.X);
+            Canvas.SetTop(rect, endpos.Y);
+            //canvas.Children.Add(rect);
+        }
         private void Line_Click(object sender, RoutedEventArgs e)
         {
-            MODE = 0;
+            DRAW_MODE = 0;
         }
 
         private void Rectangle_Click(object sender, RoutedEventArgs e)
         {
-            MODE = 1;
+            DRAW_MODE = 1;
         }
 
         private void Circle_Click(object sender, RoutedEventArgs e)
         {
-            MODE = 2;
+            DRAW_MODE = 2;
         }
 
         private void rectangle_keydown(object sender, KeyEventArgs e)
@@ -190,6 +235,90 @@ namespace gk_p1
         private double GetDistance(Point p1, Point p2)
         {
             return Math.Sqrt(Math.Pow((p1.X - p2.X), 2) + Math.Pow((p1.Y - p2.Y), 2));
+        }
+
+        private void Draw_Click(object sender, RoutedEventArgs e)
+        {
+            MODE = 0;
+        }
+
+        private void Move_Click(object sender, RoutedEventArgs e)
+        {
+            MODE = 1;
+        }
+
+        private void Resize_Click(object sender, RoutedEventArgs e)
+        {
+            MODE = 2;
+        }
+        private void line_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            movecoords = e.GetPosition(this);
+            //MessageBox.Show(movecoords.ToString());
+        }
+
+        private void line_MouseMove(object sender, MouseEventArgs e)
+        {
+            var rect = (Line)sender;
+            if (e.LeftButton == MouseButtonState.Pressed && MODE == 1)
+            {
+                // get the position of the mouse relative to the Canvas
+                var mousePos = e.GetPosition(canvas);
+                //MessageBox.Show(movecoords.ToString());
+                // center the rect on the mouse
+                //MessageBox.Show(rect.ActualHeight.ToString());
+                double left = mousePos.X - (rect.X1 / 2);
+                double top = mousePos.Y - (rect.Y1 / 2);
+                rect.X1 = mousePos.X;
+                rect.Y1 = mousePos.Y;
+                rect.X2 = rect.X2 + (rect.X2 - rect.X1);
+                //rect.Y2 = rect.Y2 + (rect.Y2 - rect.Y1);
+                //Canvas.SetLeft(rect, left);
+                //Canvas.SetTop(rect, top);
+            }
+        }
+
+        private void line_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Line rect = (Line)sender;
+            if (!rect.IsMouseCaptured) return;
+            Point endpos = e.GetPosition(canvas);
+            canvas.Children.Remove(rect);
+            Canvas.SetLeft(rect, endpos.X);
+            Canvas.SetTop(rect, endpos.Y);
+            //canvas.Children.Add(rect);
+        }
+        private void rect_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            movecoords = e.GetPosition(this);
+            //MessageBox.Show(movecoords.ToString());
+        }
+
+        private void rect_MouseMove(object sender, MouseEventArgs e)
+        {
+            var rect = (Rectangle)sender;
+            if (e.LeftButton == MouseButtonState.Pressed && MODE == 1)
+            {
+                // get the position of the mouse relative to the Canvas
+                var mousePos = e.GetPosition(canvas);
+                //MessageBox.Show(movecoords.ToString());
+                // center the rect on the mouse
+                double left = mousePos.X - (rect.ActualWidth / 2);
+                double top = mousePos.Y - (rect.ActualHeight / 2);
+                Canvas.SetLeft(rect, left);
+                Canvas.SetTop(rect, top);
+            }
+        }
+
+        private void rect_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Rectangle rect = (Rectangle)sender;
+            if (!rect.IsMouseCaptured) return;
+            Point endpos = e.GetPosition(canvas);
+            canvas.Children.Remove(rect);
+            Canvas.SetLeft(rect, endpos.X);
+            Canvas.SetTop(rect, endpos.Y);
+            //canvas.Children.Add(rect);
         }
         //private void Canvas_MouseMove(object sender, MouseEventArgs e)
         //{

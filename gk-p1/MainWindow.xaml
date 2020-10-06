@@ -30,7 +30,13 @@
             <Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Name="x_value_end"></Label>
             <Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="2" Content="Y: "></Label>
             <Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="3" Name="y_value_end"></Label>-->
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+                <Button Margin="3" Name="Draw" Click="Draw_Click" Padding="3">Rysuj</Button>
+                <Button Margin="3" Name="Move" Click="Move_Click" Padding="3">Przesuń</Button>
+                <Button Margin="3" Name="Resize" Click="Resize_Click" Padding="3">Zmień rozmiar</Button>
+            </StackPanel>
+            <Separator Margin="2" Grid.Row="1"></Separator>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Center">
                 <Button Padding="3" Name="Line" Click="Line_Click" Margin="3">Linia</Button>
                 <Button Padding="3" Name="Rectangle" Click="Rectangle_Click" Margin="3">Prostokąt</Button>
                 <Button Padding="3" Name="Circle" Click="Circle_Click" Margin="3">Okrąg</Button>
