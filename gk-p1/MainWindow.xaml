@@ -20,7 +20,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Content="Poczatek:" Grid.ColumnSpan="4"></Label>
+            <!--<Label Content="Poczatek:" Grid.ColumnSpan="4"></Label>
             <Label Grid.Row="1" VerticalAlignment="Center" Content="X: "></Label>
             <Label Grid.Row="1" VerticalAlignment="Center" Grid.Column="1" Name="x_value"></Label>
             <Label Grid.Row="1" VerticalAlignment="Center" Grid.Column="2" Content="Y: "></Label>
@@ -29,7 +29,12 @@
             <Label Grid.Row="3" VerticalAlignment="Center" Content="X: "></Label>
             <Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Name="x_value_end"></Label>
             <Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="2" Content="Y: "></Label>
-            <Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="3" Name="y_value_end"></Label>
+            <Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="3" Name="y_value_end"></Label>-->
+            <StackPanel Orientation="Horizontal">
+                <Button Padding="3" Name="Line" Click="Line_Click" Margin="3">Linia</Button>
+                <Button Padding="3" Name="Rectangle" Click="Rectangle_Click" Margin="3">Prostokąt</Button>
+                <Button Padding="3" Name="Circle" Click="Circle_Click" Margin="3">Okrąg</Button>
+            </StackPanel>
         </Grid>
         <Border BorderThickness="2" BorderBrush="Black">
             <Canvas  MouseUp="Canvas_MouseUp" MouseMove="Canvas_MouseMove" Background="White" Name="canvas"  MouseDown="Canvas_MouseDown">

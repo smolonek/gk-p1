@@ -26,13 +26,18 @@ namespace gk_p1
     /// 
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Co ma zostać narysowane. 0 - linia, 1 - prostokąt, 2 - okrąg
+        /// </summary>
+        private int MODE = 0;
 
         double x, y;
         Point coords;
-        Point rectStart;
-        Point rectEnd;
+        Point figureStart;
+        Point figureEnd;
         Rectangle rectMove = new Rectangle();
         Rectangle rectMovePrev = new Rectangle();
+        //Line line = new Line();
         private bool IsShiftKey { get; set; }
         bool doesRectExist = false;
         int rectNumber = 0;
@@ -47,28 +52,35 @@ namespace gk_p1
         {
             if (e.ButtonState == MouseButtonState.Pressed && doesRectExist == false)
             {
-                rectStart = e.GetPosition(this);
-                x_value.Content = rectStart.X;
-                y_value.Content = rectStart.Y;
+                figureStart = e.GetPosition(this);
             }
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && doesRectExist == false)
             {
-                if (canvas.Children.Contains(rectMovePrev))
-                    canvas.Children.Remove(rectMovePrev);
-                coords = e.GetPosition(this);
-                x_value_end.Content = coords.X;
-                y_value_end.Content = coords.Y;
-                rectMove.Width = Math.Abs(coords.X - rectStart.X);
-                rectMove.Height = Math.Abs(coords.Y - rectStart.Y);
-                rectMove.StrokeDashArray = new DoubleCollection() { 2 };
-                rectMove.Stroke = new SolidColorBrush(Colors.Black);
-                Canvas.SetLeft(rectMove, rectStart.X);
-                Canvas.SetTop(rectMove, rectStart.Y);
-                rectMovePrev = rectMove;
-                canvas.Children.Add(rectMove);
+                if(MODE == 0)
+                {
+
+                }
+                else if (MODE == 1)
+                {
+                    if (canvas.Children.Contains(rectMovePrev))
+                        canvas.Children.Remove(rectMovePrev);
+                    coords = e.GetPosition(this);
+                    rectMove.Width = Math.Abs(coords.X - figureStart.X);
+                    rectMove.Height = Math.Abs(coords.Y - figureStart.Y);
+                    rectMove.StrokeDashArray = new DoubleCollection() { 2 };
+                    rectMove.Stroke = new SolidColorBrush(Colors.Black);
+                    Canvas.SetLeft(rectMove, figureStart.X);
+                    Canvas.SetTop(rectMove, figureStart.Y);
+                    rectMovePrev = rectMove;
+                    canvas.Children.Add(rectMove);
+                }
+                else
+                {
+
+                }
 
             }
         }
@@ -76,26 +88,63 @@ namespace gk_p1
         {
             if(e.LeftButton == MouseButtonState.Released && doesRectExist == false)
             {
-                rectEnd.X = e.GetPosition(this).X;
-                rectEnd.Y = e.GetPosition(this).Y;
-                x_value_end.Content = rectEnd.X;
-                y_value_end.Content = rectEnd.Y;
-                Rectangle rectangle = new Rectangle();
-                rectangle.Width = Math.Abs(rectEnd.X - rectStart.X);
-                rectangle.Height = Math.Abs(rectEnd.Y - rectStart.Y);
-                rectangle.Stroke = new SolidColorBrush(Colors.Red);
-                rectangle.StrokeThickness = 2;
-                Canvas.SetLeft(rectangle, rectStart.X);
-                Canvas.SetTop(rectangle, rectStart.Y);
-                rectangle.Fill = new SolidColorBrush(Colors.Blue);
-                rectangle.Focusable = true;
-                rectangle.Name = "rectangle" + rectNumber++;
-                rectangle.KeyUp += new KeyEventHandler(rectangle_keydown);
-                canvas.Children.Add(rectangle);
-                FocusManager.SetFocusedElement(canvas, canvas.Children[canvas.Children.Count - 1]);
-                canvas.Children.Remove(rectMovePrev);
-                //doesRectExist = true;
+                figureEnd.X = e.GetPosition(this).X;
+                figureEnd.Y = e.GetPosition(this).Y;
+                if(MODE == 0)
+                {
+                    Line line = new Line();
+                    line.X1 = figureStart.X;
+                    line.Y1 = figureStart.Y;
+                    line.X2 = figureEnd.X;
+                    line.Y2 = figureEnd.Y;
+                    line.Stroke = new SolidColorBrush(Colors.Red);
+                    line.StrokeThickness = 2;
+                    canvas.Children.Add(line);
+                }
+                else if(MODE == 1)
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = Math.Abs(figureEnd.X - figureStart.X);
+                    rectangle.Height = Math.Abs(figureEnd.Y - figureStart.Y);
+                    rectangle.Stroke = new SolidColorBrush(Colors.Red);
+                    rectangle.StrokeThickness = 2;
+                    Canvas.SetLeft(rectangle, figureStart.X);
+                    Canvas.SetTop(rectangle, figureStart.Y);
+                    rectangle.Fill = new SolidColorBrush(Colors.Blue);
+                    rectangle.Focusable = true;
+                    rectangle.Name = "rectangle" + rectNumber++;
+                    rectangle.KeyUp += new KeyEventHandler(rectangle_keydown);
+                    canvas.Children.Add(rectangle);
+                    FocusManager.SetFocusedElement(canvas, canvas.Children[canvas.Children.Count - 1]);
+                    canvas.Children.Remove(rectMovePrev);
+                    //doesRectExist = true;
+                }
+                else
+                {
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Height = 2 * GetDistance(figureStart, e.GetPosition(this));
+                    ellipse.Width = ellipse.Height;
+                    ellipse.Stroke = new SolidColorBrush(Colors.Green);
+                    Canvas.SetLeft(ellipse, figureStart.X - ellipse.Width/2);
+                    Canvas.SetTop(ellipse, figureStart.Y - ellipse.Width / 2);
+                    canvas.Children.Add(ellipse);
+                }
             }
+        }
+
+        private void Line_Click(object sender, RoutedEventArgs e)
+        {
+            MODE = 0;
+        }
+
+        private void Rectangle_Click(object sender, RoutedEventArgs e)
+        {
+            MODE = 1;
+        }
+
+        private void Circle_Click(object sender, RoutedEventArgs e)
+        {
+            MODE = 2;
         }
 
         private void rectangle_keydown(object sender, KeyEventArgs e)
@@ -137,6 +186,10 @@ namespace gk_p1
                     Canvas.SetTop(rectUI, Canvas.GetTop(rectUI) + 10);
                 }
             }
+        }
+        private double GetDistance(Point p1, Point p2)
+        {
+            return Math.Sqrt(Math.Pow((p1.X - p2.X), 2) + Math.Pow((p1.Y - p2.Y), 2));
         }
         //private void Canvas_MouseMove(object sender, MouseEventArgs e)
         //{
