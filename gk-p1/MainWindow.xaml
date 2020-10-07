@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gk_p1"
         mc:Ignorable="d"
+        Name="Win"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
         <Grid DockPanel.Dock="Right" Background="White">
@@ -15,6 +16,10 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -35,16 +40,106 @@
                 <Button Margin="3" Name="Move" Click="Move_Click" Padding="3">Przesuń</Button>
                 <Button Margin="3" Name="Resize" Click="Resize_Click" Padding="3">Zmień rozmiar</Button>
             </StackPanel>
-            <Separator Margin="2" Grid.Row="1"></Separator>
+            <Separator Margin="2" Grid.Row="1" Grid.ColumnSpan="4"></Separator>
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Center">
                 <Button Padding="3" Name="Line" Click="Line_Click" Margin="3">Linia</Button>
                 <Button Padding="3" Name="Rectangle" Click="Rectangle_Click" Margin="3">Prostokąt</Button>
                 <Button Padding="3" Name="Circle" Click="Circle_Click" Margin="3">Okrąg</Button>
             </StackPanel>
+            <Separator Margin="2" Grid.Row="3" Grid.ColumnSpan="4"></Separator>
+            <StackPanel Name="LineStack" Grid.Row="4" Grid.ColumnSpan="4">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Początek"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="LineX1" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="LineY1" Grid.Column="4" />
+                </Grid>
+                <Grid Grid.Row="4" Grid.ColumnSpan="4" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Koniec"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="LineX2" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="LineY2" Grid.Column="4" />
+                </Grid>
+                <Button Name="DrawLine" Click="DrawLine_Click" Margin="2">RYSUJ LINIĘ</Button>
+            </StackPanel>
+            <StackPanel Name="RectStack" Grid.Row="5" Grid.ColumnSpan="4">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Lewy górny róg"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="RectX" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="RectY" Grid.Column="4" />
+                </Grid>
+                <Grid Grid.Row="4" Grid.ColumnSpan="4" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content=""/>
+                    <Label Grid.Column="1" Content="Szerokość"/>
+                    <TextBox Name="RectW" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Wysokość"/>
+                    <TextBox Name="RectH" Grid.Column="4" />
+                </Grid>
+                <Button Margin="2" Name="DrawRect" Click="DrawRect_Click">RYSUJ PROSTOKĄT</Button>
+            </StackPanel>
+            <StackPanel Name="CircleStack" Grid.Row="6" Grid.ColumnSpan="4">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Środek"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="CircleX" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="CircleY" Grid.Column="4" />
+                </Grid>
+                <Grid Grid.Row="4" Grid.ColumnSpan="4" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Promień"/>
+                    <TextBox Name="CircleRadius" Grid.Column="2" />
+                </Grid>
+                <Button Name="DrawCircle" Margin="2" Click="DrawCircle_Click">RYSUJ OKRĄG</Button>
+            </StackPanel>
         </Grid>
         <Border BorderThickness="2" BorderBrush="Black">
-            <Canvas  MouseUp="Canvas_MouseUp" MouseMove="Canvas_MouseMove" Background="White" Name="canvas"  MouseDown="Canvas_MouseDown">
-            </Canvas>
+            <Canvas  MouseUp="Canvas_MouseUp" MouseMove="Canvas_MouseMove" Background="White" Name="canvas"  MouseDown="Canvas_MouseDown"></Canvas>
         </Border>
     </DockPanel>
 </Window>

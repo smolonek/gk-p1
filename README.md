@@ -1,5 +1,5 @@
 - [x] Rysowanie trzech prymitywów: linii, prostokątu, okręgu,
-- [ ] Podawanie parametrów rysowania za pomocą pola tekstowego (wpisanie parametrów w pola tekstowe i zatwierdzenie przyciskiem),
+- [x] Podawanie parametrów rysowania za pomocą pola tekstowego (wpisanie parametrów w pola tekstowe i zatwierdzenie przyciskiem),
 - [x] Rysowanie przy użyciu myszy (definiowanie punktów charakterystycznych kliknięciami),
 - [x] Przesuwanie przy użyciu myszy (uchwycenie np. za krawędź i przeciągnięcie),
 - [ ] Zmiana kształtu / rozmiaru przy użyciu myszy (uchwycenie za punkty charakterystyczne i przeciągnięcie),

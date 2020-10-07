@@ -50,6 +50,10 @@ namespace gk_p1
             if (Debugger.IsAttached)
                 CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             InitializeComponent();
+
+            LineStack.Visibility = Visibility.Visible;
+            RectStack.Visibility = Visibility.Collapsed;
+            CircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -102,7 +106,7 @@ namespace gk_p1
                     line.X2 = figureEnd.X;
                     line.Y2 = figureEnd.Y;
                     line.Stroke = new SolidColorBrush(Colors.Red);
-                    line.StrokeThickness = 2;
+                    line.StrokeThickness = 5;
                     line.MouseLeftButtonDown += line_MouseLeftButtonDown;
                     line.MouseLeftButtonUp += line_MouseLeftButtonUp;
                     line.MouseMove += line_MouseMove;
@@ -180,16 +184,25 @@ namespace gk_p1
         private void Line_Click(object sender, RoutedEventArgs e)
         {
             DRAW_MODE = 0;
+            LineStack.Visibility = Visibility.Visible;
+            RectStack.Visibility = Visibility.Collapsed;
+            CircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Rectangle_Click(object sender, RoutedEventArgs e)
         {
             DRAW_MODE = 1;
+            LineStack.Visibility = Visibility.Collapsed;
+            RectStack.Visibility = Visibility.Visible;
+            CircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Circle_Click(object sender, RoutedEventArgs e)
         {
             DRAW_MODE = 2;
+            LineStack.Visibility = Visibility.Collapsed;
+            RectStack.Visibility = Visibility.Collapsed;
+            CircleStack.Visibility = Visibility.Visible;
         }
 
         private void rectangle_keydown(object sender, KeyEventArgs e)
@@ -245,6 +258,9 @@ namespace gk_p1
         private void Move_Click(object sender, RoutedEventArgs e)
         {
             MODE = 1;
+            LineStack.Visibility = Visibility.Collapsed;
+            RectStack.Visibility = Visibility.Collapsed;
+            CircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Resize_Click(object sender, RoutedEventArgs e)
@@ -253,8 +269,13 @@ namespace gk_p1
         }
         private void line_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            movecoords = e.GetPosition(this);
+            movecoords = e.GetPosition(canvas);
             //MessageBox.Show(movecoords.ToString());
+            //Line line = (Line)sender;
+            //line.X1 += 1;
+            //line.X2 += 1;
+            //line.Y1 += 1;
+            //MessageBox.Show("WINDOW: " + e.GetPosition(Win).ToString() + " \n CANVAS: " + e.GetPosition(canvas).ToString() + "\n LINE: " + e.GetPosition((Line)sender).ToString());
         }
 
         private void line_MouseMove(object sender, MouseEventArgs e)
@@ -264,17 +285,27 @@ namespace gk_p1
             {
                 // get the position of the mouse relative to the Canvas
                 var mousePos = e.GetPosition(canvas);
+                Point P1 = new Point(movecoords.X - rect.X1, movecoords.Y - rect.Y1);
+                Point P2 = new Point(Math.Abs(movecoords.X - rect.X2), Math.Abs(movecoords.Y - rect.Y2));
+                Point P3 = new Point(mousePos.X - movecoords.X, mousePos.Y - movecoords.Y);
                 //MessageBox.Show(movecoords.ToString());
                 // center the rect on the mouse
                 //MessageBox.Show(rect.ActualHeight.ToString());
-                double left = mousePos.X - (rect.X1 / 2);
-                double top = mousePos.Y - (rect.Y1 / 2);
-                rect.X1 = mousePos.X;
-                rect.Y1 = mousePos.Y;
-                rect.X2 = rect.X2 + (rect.X2 - rect.X1);
+                //double left = mousePos.X - (rect.X1 / 2);
+                //double top = mousePos.Y - (rect.Y1 / 2);
+                //rect.X1 = e.GetPosition(this).X;
+                //rect.Y1 = e.GetPosition(this).Y;
+                //rect.X2 = rect.X2 - rect.X1 + e.GetPosition(this).X;
+                //rect.Y2 = rect.Y2 - rect.Y1 + e.GetPosition(this).Y;
                 //rect.Y2 = rect.Y2 + (rect.Y2 - rect.Y1);
-                //Canvas.SetLeft(rect, left);
-                //Canvas.SetTop(rect, top);
+                //rect.X1 = e.GetPosition(canvas).X;
+                //rect.Y1 = e.GetPosition(canvas).Y;
+                //rect.X2 = rect.X2 - P2.X;
+                //rect.Y2 = rect.Y2 - P2.Y;
+                //Canvas.SetLeft(rect, Canvas.GetLeft(rect) + e.GetPosition(rect).X);
+                //Canvas.SetTop(rect, Canvas.GetTop(rect) + e.GetPosition(rect).Y);
+                Canvas.SetLeft(rect, e.GetPosition(canvas).X);
+                Canvas.SetTop(rect, e.GetPosition(canvas).Y);
             }
         }
 
@@ -308,6 +339,57 @@ namespace gk_p1
                 Canvas.SetLeft(rect, left);
                 Canvas.SetTop(rect, top);
             }
+        }
+
+        private void DrawLine_Click(object sender, RoutedEventArgs e)
+        {
+            Line line = new Line
+            {
+                X1 = Convert.ToDouble(LineX1.Text),
+                Y1 = Convert.ToDouble(LineY1.Text),
+                X2 = Convert.ToDouble(LineX2.Text),
+                Y2 = Convert.ToDouble(LineY2.Text)
+            };
+            line.Stroke = new SolidColorBrush(Colors.Black);
+            line.StrokeThickness = 4;
+            line.MouseLeftButtonDown += line_MouseLeftButtonDown;
+            line.MouseLeftButtonUp += line_MouseLeftButtonUp;
+            line.MouseMove += line_MouseMove;
+            canvas.Children.Add(line);
+            Canvas.SetLeft(line, line.X1);
+            Canvas.SetTop(line, line.Y1);
+        }
+
+        private void DrawRect_Click(object sender, RoutedEventArgs e)
+        {
+            Rectangle rect = new Rectangle
+            {
+                Width = Convert.ToDouble(RectW.Text),
+                Height = Convert.ToDouble(RectH.Text),
+                Stroke = new SolidColorBrush(Colors.Red),
+                StrokeThickness = 4
+            };
+            rect.MouseLeftButtonDown += rect_MouseLeftButtonDown;
+            rect.MouseLeftButtonUp += rect_MouseLeftButtonUp;
+            rect.MouseMove += rect_MouseMove;
+            canvas.Children.Add(rect);
+            Canvas.SetLeft(rect, Convert.ToDouble(RectX.Text));
+            Canvas.SetTop(rect, Convert.ToDouble(RectY.Text));
+        }
+
+        private void DrawCircle_Click(object sender, RoutedEventArgs e)
+        {
+            Ellipse circle = new Ellipse();
+            circle.Height = Convert.ToDouble(CircleRadius.Text) * 2;
+            circle.Width = circle.Height;
+            circle.StrokeThickness = 4;
+            circle.Stroke = new SolidColorBrush(Colors.Green);
+            circle.MouseLeftButtonDown += ellipse_MouseLeftButtonDown;
+            circle.MouseLeftButtonUp += ellipse_MouseLeftButtonUp;
+            circle.MouseMove += ellipse_MouseMove;
+            canvas.Children.Add(circle);
+            Canvas.SetLeft(circle, Convert.ToDouble(CircleX.Text) - (circle.Height / 4));
+            Canvas.SetTop(circle, Convert.ToDouble(CircleY.Text) - (circle.Width / 4));
         }
 
         private void rect_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
