@@ -24,6 +24,9 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <!--<Label Content="Poczatek:" Grid.ColumnSpan="4"></Label>
             <Label Grid.Row="1" VerticalAlignment="Center" Content="X: "></Label>
@@ -136,6 +139,97 @@
                     <TextBox Name="CircleRadius" Grid.Column="2" />
                 </Grid>
                 <Button Name="DrawCircle" Margin="2" Click="DrawCircle_Click">RYSUJ OKRĄG</Button>
+            </StackPanel>
+            <StackPanel Name="ResizeLineStack" Grid.Row="7" Grid.ColumnSpan="4">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Początek"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="NewLineX1" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="NewLineY1" Grid.Column="4" />
+                </Grid>
+                <Grid Grid.Row="4" Grid.ColumnSpan="4" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Koniec"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="NewLineX2" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="NewLineY2" Grid.Column="4" />
+                </Grid>
+                <Button Name="ResizeLine" Margin="2" Click="ResizeLine_Click">ZATWIERDŹ</Button>
+            </StackPanel>
+            <StackPanel Name="ResizeRectStack" Grid.Row="8" Grid.ColumnSpan="4">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Lewy górny róg"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="NewRectX" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="NewRectY" Grid.Column="4" />
+                </Grid>
+                <Grid Grid.Row="4" Grid.ColumnSpan="4" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content=""/>
+                    <Label Grid.Column="1" Content="Szerokość"/>
+                    <TextBox Name="NewRectWidth" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Wysokość"/>
+                    <TextBox Name="NewRectHeight" Grid.Column="4" />
+                </Grid>
+                <Button Name="ResizeRect" Margin="2" Click="ResizeRect_Click">ZATWIERDŹ</Button>
+            </StackPanel>
+            <StackPanel Name="ResizeCircleStack" Grid.Row="9" Grid.ColumnSpan="4">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Początek"/>
+                    <Label Grid.Column="1" Content="X"/>
+                    <TextBox Name="NewCircleX" Grid.Column="2" />
+                    <Label Grid.Column="3" Content="Y"/>
+                    <TextBox Name="NewCircleY" Grid.Column="4" />
+                </Grid>
+                <Grid Grid.Row="4" Grid.ColumnSpan="4" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Koniec"/>
+                    <Label Grid.Column="1" Content="Promień"/>
+                    <TextBox Name="NewCircleRadius" Grid.Column="2" />
+                </Grid>
+                <Button Name="ResizeCircle" Margin="2" Click="ResizeCircle_Click">ZATWIERDŹ</Button>
             </StackPanel>
         </Grid>
         <Border BorderThickness="2" BorderBrush="Black">

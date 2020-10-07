@@ -41,10 +41,14 @@ namespace gk_p1
         Point movecoords;
         Rectangle rectMove = new Rectangle();
         Rectangle rectMovePrev = new Rectangle();
+        Rectangle selectedRect = new Rectangle();
+        Line selectedLine = new Line();
+        Ellipse selectedCircle = new Ellipse();
         //Line line = new Line();
         private bool IsShiftKey { get; set; }
         bool doesRectExist = false;
         int rectNumber = 0;
+
         public MainWindow()
         {
             if (Debugger.IsAttached)
@@ -54,6 +58,9 @@ namespace gk_p1
             LineStack.Visibility = Visibility.Visible;
             RectStack.Visibility = Visibility.Collapsed;
             CircleStack.Visibility = Visibility.Collapsed;
+            ResizeLineStack.Visibility = Visibility.Collapsed;
+            ResizeRectStack.Visibility = Visibility.Collapsed;
+            ResizeCircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -63,6 +70,7 @@ namespace gk_p1
                 figureStart = e.GetPosition(this);
             }
         }
+
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && MODE == 0 && doesRectExist == false)
@@ -92,6 +100,7 @@ namespace gk_p1
 
             }
         }
+
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if(e.LeftButton == MouseButtonState.Released && MODE == 0 && doesRectExist == false)
@@ -149,9 +158,14 @@ namespace gk_p1
                 }
             }
         }
+
         private void ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             movecoords = e.GetPosition(this);
+            selectedCircle = (Ellipse)sender;
+            NewCircleRadius.Text = (selectedCircle.Width / 2).ToString();
+            NewCircleX.Text = Canvas.GetLeft(selectedCircle).ToString();
+            NewCircleY.Text = Canvas.GetTop(selectedCircle).ToString();
             //MessageBox.Show(movecoords.ToString());
         }
 
@@ -181,12 +195,16 @@ namespace gk_p1
             Canvas.SetTop(rect, endpos.Y);
             //canvas.Children.Add(rect);
         }
+
         private void Line_Click(object sender, RoutedEventArgs e)
         {
             DRAW_MODE = 0;
             LineStack.Visibility = Visibility.Visible;
             RectStack.Visibility = Visibility.Collapsed;
             CircleStack.Visibility = Visibility.Collapsed;
+            ResizeLineStack.Visibility = Visibility.Collapsed;
+            ResizeRectStack.Visibility = Visibility.Collapsed;
+            ResizeCircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Rectangle_Click(object sender, RoutedEventArgs e)
@@ -195,6 +213,9 @@ namespace gk_p1
             LineStack.Visibility = Visibility.Collapsed;
             RectStack.Visibility = Visibility.Visible;
             CircleStack.Visibility = Visibility.Collapsed;
+            ResizeLineStack.Visibility = Visibility.Collapsed;
+            ResizeRectStack.Visibility = Visibility.Collapsed;
+            ResizeCircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Circle_Click(object sender, RoutedEventArgs e)
@@ -203,6 +224,9 @@ namespace gk_p1
             LineStack.Visibility = Visibility.Collapsed;
             RectStack.Visibility = Visibility.Collapsed;
             CircleStack.Visibility = Visibility.Visible;
+            ResizeLineStack.Visibility = Visibility.Collapsed;
+            ResizeRectStack.Visibility = Visibility.Collapsed;
+            ResizeCircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void rectangle_keydown(object sender, KeyEventArgs e)
@@ -245,6 +269,7 @@ namespace gk_p1
                 }
             }
         }
+
         private double GetDistance(Point p1, Point p2)
         {
             return Math.Sqrt(Math.Pow((p1.X - p2.X), 2) + Math.Pow((p1.Y - p2.Y), 2));
@@ -253,23 +278,38 @@ namespace gk_p1
         private void Draw_Click(object sender, RoutedEventArgs e)
         {
             MODE = 0;
+            LineStack.Visibility = Visibility.Visible;
+            RectStack.Visibility = Visibility.Collapsed;
+            CircleStack.Visibility = Visibility.Collapsed;
+            ResizeLineStack.Visibility = Visibility.Collapsed;
+            ResizeRectStack.Visibility = Visibility.Collapsed;
+            ResizeCircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Move_Click(object sender, RoutedEventArgs e)
         {
             MODE = 1;
-            LineStack.Visibility = Visibility.Collapsed;
-            RectStack.Visibility = Visibility.Collapsed;
-            CircleStack.Visibility = Visibility.Collapsed;
         }
 
         private void Resize_Click(object sender, RoutedEventArgs e)
         {
             MODE = 2;
+            LineStack.Visibility = Visibility.Collapsed;
+            RectStack.Visibility = Visibility.Collapsed;
+            CircleStack.Visibility = Visibility.Collapsed;
+            ResizeLineStack.Visibility = Visibility.Visible;
+            ResizeRectStack.Visibility = Visibility.Visible;
+            ResizeCircleStack.Visibility = Visibility.Visible;
         }
+
         private void line_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             movecoords = e.GetPosition(canvas);
+            selectedLine = (Line)sender;
+            NewLineX1.Text = selectedLine.X1.ToString();
+            NewLineY1.Text = selectedLine.Y1.ToString();
+            NewLineX2.Text = selectedLine.X2.ToString();
+            NewLineY2.Text = selectedLine.Y2.ToString();
             //MessageBox.Show(movecoords.ToString());
             //Line line = (Line)sender;
             //line.X1 += 1;
@@ -319,9 +359,15 @@ namespace gk_p1
             Canvas.SetTop(rect, endpos.Y);
             //canvas.Children.Add(rect);
         }
+
         private void rect_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             movecoords = e.GetPosition(this);
+            selectedRect = (Rectangle)sender;
+            NewRectHeight.Text = selectedRect.Height.ToString();
+            NewRectWidth.Text = selectedRect.Width.ToString();
+            NewRectX.Text = Canvas.GetLeft(selectedRect).ToString();
+            NewRectY.Text = Canvas.GetTop(selectedRect).ToString();
             //MessageBox.Show(movecoords.ToString());
         }
 
@@ -390,6 +436,30 @@ namespace gk_p1
             canvas.Children.Add(circle);
             Canvas.SetLeft(circle, Convert.ToDouble(CircleX.Text) - (circle.Height / 4));
             Canvas.SetTop(circle, Convert.ToDouble(CircleY.Text) - (circle.Width / 4));
+        }
+
+        private void ResizeLine_Click(object sender, RoutedEventArgs e)
+        {
+            selectedLine.X1 = Convert.ToDouble(NewLineX1.Text);
+            selectedLine.Y1 = Convert.ToDouble(NewLineY1.Text);
+            selectedLine.X2 = Convert.ToDouble(NewLineX2.Text);
+            selectedLine.Y2 = Convert.ToDouble(NewLineY2.Text);
+        }
+
+        private void ResizeRect_Click(object sender, RoutedEventArgs e)
+        {
+            selectedRect.Height = Convert.ToDouble(NewRectHeight.Text);
+            selectedRect.Width = Convert.ToDouble(NewRectWidth.Text);
+            Canvas.SetLeft(selectedRect, Convert.ToDouble(NewRectX.Text));
+            Canvas.SetTop(selectedRect, Convert.ToDouble(NewRectY.Text));
+        }
+
+        private void ResizeCircle_Click(object sender, RoutedEventArgs e)
+        {
+            selectedCircle.Width = Convert.ToDouble(NewCircleRadius.Text) * 2;
+            selectedCircle.Height = Convert.ToDouble(NewCircleRadius.Text) * 2;
+            Canvas.SetLeft(selectedCircle, Convert.ToDouble(NewCircleX.Text) - (selectedCircle.Height / 4));
+            Canvas.SetTop(selectedCircle, Convert.ToDouble(NewCircleY.Text) - (selectedCircle.Height / 4));
         }
 
         private void rect_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

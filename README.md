@@ -3,6 +3,6 @@
 - [x] Rysowanie przy użyciu myszy (definiowanie punktów charakterystycznych kliknięciami),
 - [x] Przesuwanie przy użyciu myszy (uchwycenie np. za krawędź i przeciągnięcie),
 - [ ] Zmiana kształtu / rozmiaru przy użyciu myszy (uchwycenie za punkty charakterystyczne i przeciągnięcie),
-- [ ] Zmiana kształtu / rozmiaru przy użyciu pola tekstowego (zaznaczenie obiektu i modyfikacja jego parametrów przy użyciu pola tekstowego).
+- [x] Zmiana kształtu / rozmiaru przy użyciu pola tekstowego (zaznaczenie obiektu i modyfikacja jego parametrów przy użyciu pola tekstowego).
 
 przesuwanie prosotkata dziala, kolko troche mniej a linia praktycznie w ogole, ale chyba wiem jak to ogarnac, przesuniecie na ukladzie wspolrzednych
